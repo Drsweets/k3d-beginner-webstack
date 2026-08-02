@@ -43,3 +43,31 @@ Full Cleanup
 bash
 chmod +x destroy.sh
 ./destroy.sh
+
+
+
+---
+
+## 3. install-tools.sh
+```bash
+#!/bin/bash
+set -e
+sudo apt update && sudo apt install -y git curl wget
+
+# Install kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin
+
+# Install k3d
+wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+
+# Install K9s
+curl -sL https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz | tar xz
+sudo mv k9s /usr/local/bin
+rm LICENSE README.md
+
+echo "✅ Installed: kubectl, k3d, k9s"
+kubectl version --client
+k3d version
+k9s version
