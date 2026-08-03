@@ -4,4 +4,7 @@ metadata:
   name: webstack-cluster
 servers: 1
 agents: 0
-# Remove manual port mapping; rely on NodePort for consistent access
+ports:
+  - port: 8080:30080
+    nodeFilters:
+      - loadbalancer
