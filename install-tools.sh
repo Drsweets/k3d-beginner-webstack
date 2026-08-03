@@ -36,11 +36,23 @@ else
 fi
 
 
+# Install K9s
+if ! command -v k9s &> /dev/null
+then
+    echo "Installing K9s..."
+    curl -sL https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz | tar xz k9s
+    sudo mv k9s /usr/local/bin/
+else
+    echo "k9s already installed"
+fi
+
+
 echo ""
 echo "Installed versions:"
 kubectl version --client
 helm version
 k3d version
+k9s version
 
 echo ""
 echo "Tool installation complete."
