@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e
+docker build -t flask-api:local manifests/flask-api/
+k3d image import flask-api:local -c webstack-cluster
 kubectl apply -f manifests/namespace.yaml
 kubectl apply -f manifests/configmap.yaml
 kubectl apply -f manifests/nginx/configmap.yaml
