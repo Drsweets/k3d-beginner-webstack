@@ -41,7 +41,7 @@ else
 fi
 echo ""
 echo "Installed versions:"
-kubectl version --client-only
+kubectl version --client
 helm version
 k3d version
 if command -v k9s &> /dev/null; then
