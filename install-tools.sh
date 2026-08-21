@@ -1,9 +1,7 @@
+```bash
 #!/bin/bash
-
 set -e
-
 echo "Installing Kubernetes tools..."
-
 # Install kubectl
 if ! command -v kubectl &> /dev/null
 then
@@ -14,8 +12,6 @@ then
 else
     echo "kubectl already installed"
 fi
-
-
 # Install Helm
 if ! command -v helm &> /dev/null
 then
@@ -24,8 +20,6 @@ then
 else
     echo "helm already installed"
 fi
-
-
 # Install k3d
 if ! command -v k3d &> /dev/null
 then
@@ -34,25 +28,26 @@ then
 else
     echo "k3d already installed"
 fi
-
-
 # Install K9s
 if ! command -v k9s &> /dev/null
 then
     echo "Installing K9s..."
-    curl -sL https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz | tar xz k9s
-    sudo mv k9s /usr/local/bin/
+    TMP_DIR=$(mktemp -d)
+    curl -sL "https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.tar.gz" -o "${TMP_DIR}/k9s.tar.gz"
+    tar -xzf "${TMP_DIR}/k9s.tar.gz" -C "${TMP_DIR}" k9s
+    sudo mv "${TMP_DIR}/k9s" /usr/local/bin/
+    rm -rf "${TMP_DIR}"
 else
     echo "k9s already installed"
 fi
-
-
 echo ""
 echo "Installed versions:"
-kubectl version --client
+kubectl version --client-only
 helm version
 k3d version
-k9s version
-
+if command -v k9s &> /dev/null; then
+    k9s version
+fi
 echo ""
 echo "Tool installation complete."
+```
