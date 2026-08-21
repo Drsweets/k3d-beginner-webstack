@@ -1,4 +1,3 @@
-```bash
 #!/bin/bash
 set -e
 echo "Installing Kubernetes tools..."
@@ -50,4 +49,3 @@ if command -v k9s &> /dev/null; then
 fi
 echo ""
 echo "Tool installation complete."
-```
