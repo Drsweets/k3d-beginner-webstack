@@ -5,13 +5,9 @@ metadata:
 servers: 1
 agents: 1
 ports:
-  - port: 80:80
+  - port: 8080:30080
     nodeFilters:
       - loadbalancer
   - port: 443:443
     nodeFilters:
       - loadbalancer
-options:
-  k3s:
-    extraArgs:
-      - --disable=traefik=false
