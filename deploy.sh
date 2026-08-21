@@ -9,12 +9,11 @@ kubectl apply -f manifests/redis/
 kubectl apply -f manifests/flask-api/
 kubectl apply -f manifests/nginx/
 echo "✅ All manifests deployed, waiting for workloads to become ready..."
-kubectl wait --for=condition=ready pod -n web-stack --all --timeout=180s
+for deploy in $(kubectl get deployments -n web-stack -o jsonpath='{.items[*].metadata.name}'); do
+  kubectl rollout status deployment/"$deploy" -n web-stack --timeout=120s
+done
 echo ""
 kubectl get all -n web-stack
 echo ""
-echo "🔗 Access URL (NodePort):"
-NODE_PORT=$(kubectl get svc -n web-stack nginx-service -o jsonpath='{.spec.ports[0].nodePort}')
-echo "http://localhost:${NODE_PORT}"
-echo "🔗 K3d LoadBalancer URL: http://localhost:8080"
+echo "🔗 Access URL: http://localhost:8080"
 echo ""
